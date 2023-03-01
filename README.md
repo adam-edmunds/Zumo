@@ -47,7 +47,7 @@ React Client connected: uHwWIrqbQMNf0sM1AAAB
 
 This means that the backend has successfully connected to the zumo via the serial port and the frontend via socket.io. You can then go to `localhost:3000` to see the frontend. 
 
-By default the arduino doesn't do anything until it receives a command from the frontend. There are notifications for when the zumo sends back data however, if you wan't to see the list / live stream then make sure the checkbox option `Zumo Log` is checked.
+By default the arduino doesn't do anything until it receives a command from the frontend. There are notifications for when the zumo sends back data however, if you wan't to see the list / live stream then make sure the checkbox `Show Log` is checked.
 
 # Useful Links
 
