@@ -7,8 +7,8 @@ const app = express();
 const SERVER_PORT = 9001;
 
 // Two paths as I have to test on my windows pc and mac
-const path = 'COM5';
-// const path = '/dev/tty.usbmodem101';
+// const path = 'COM5';
+const path = '/dev/tty.usbmodem1101';
 
 const arduinoPort = new SerialPort({
   path: path,

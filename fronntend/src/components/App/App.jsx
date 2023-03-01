@@ -87,134 +87,177 @@ export const App = () => {
     setShowLog(!showLog);
   };
 
+  const validKeys = {
+    w: 'w',
+    a: 'a',
+    s: 's',
+    d: 'd',
+    l: 'l',
+    r: 'r',
+    o: 'o',
+    p: 'semi',
+    f: 'full',
+    m: 'manual',
+    x: 'x',
+  };
+
+  const debounce = (func, wait = 100) => {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func.apply(this, args);
+      }, wait);
+    };
+  };
+
+  const handleKeyPress = (key) => {
+    const { key: keyPressed } = key;
+    const message = validKeys[keyPressed.toLowerCase()];
+
+    if (message) sendDataToArduino(message);
+  };
+
   return (
-    <Container maxWidth={false}>
-      <Typography variant='h3' textAlign='center' mt={6}>
-        Zumo Bot Controls
-      </Typography>
-      <Stack alignItems='center' direction='row' justifyContent='center'>
-        <Typography textAlign='center'>
-          <Checkbox type='checkbox' onClick={handleLogClick} />
-          Show Log
+    <div onKeyDown={debounce(handleKeyPress)} tabIndex='-1'>
+      <Container maxWidth={false}>
+        <Typography variant='h3' textAlign='center' mt={6}>
+          Zumo Bot Controls
         </Typography>
-      </Stack>
-      <Grid
-        container
-        alignItems='center'
-        justifyContent='center'
-        textAlign='center'
-        mt={4}
-      >
-        <Grid item xs={4} />
-        <CustomButton size={3} onClick={() => sendDataToArduino('w')}>
-          <Stack alignItems='center'>
-            <ArrowUpwardIcon />
-            <Typography>Forward</Typography>
-          </Stack>
-        </CustomButton>
-
-        <Grid item xs={4} />
-        <CustomButton size={3} onClick={() => sendDataToArduino('a')}>
-          <Stack alignItems='center'>
-            <ArrowBackIcon />
-            <Typography>Left</Typography>
-          </Stack>
-        </CustomButton>
-
-        <Grid item xs={4} />
-
-        <CustomButton size={3} onClick={() => sendDataToArduino('d')}>
-          <Stack alignItems='center'>
-            <ArrowForwardIcon />
-            <Typography>Right</Typography>
-          </Stack>
-        </CustomButton>
-
-        <Grid item xs={4} />
-
-        <CustomButton size={3} onClick={() => sendDataToArduino('s')}>
-          <Stack alignItems='center'>
-            <ArrowDownwardIcon />
-            <Typography>Back</Typography>
-          </Stack>
-        </CustomButton>
-        <Grid item xs={4} />
-      </Grid>
-      <Grid container alignItems='center' justifyContent='center' mt={6}>
-        <CustomButton size={3} onClick={() => sendDataToArduino('l')} inLine>
-          <Stack alignItems='center'>
-            <RotateLeftIcon />
-            <Typography>90° Left</Typography>
-          </Stack>
-        </CustomButton>
-        <CustomButton size={3} onClick={() => sendDataToArduino('r')}>
-          <Stack alignItems='center'>
-            <RotateRightIcon />
-            <Typography>90° Right</Typography>
-          </Stack>
-        </CustomButton>
-      </Grid>
-      <Grid container alignItems='center' justifyContent='center' mt={6}>
-        <CustomButton
-          size={2}
-          onClick={() => sendDataToArduino('manual')}
-          inLine
-        >
-          <Stack alignItems='center'>
-            <PersonIcon style={{ fontSize: '2.25rem' }} />
-            <Typography>Manual Mode</Typography>
-          </Stack>
-        </CustomButton>
-
-        <CustomButton size={2} onClick={() => sendDataToArduino('semi')} inLine>
-          <Stack alignItems='center'>
-            <SmartToyIcon style={{ fontSize: '2.25rem' }} />
-            <Typography>Semi Auto Mode</Typography>
-          </Stack>
-        </CustomButton>
-
-        <CustomButton size={2} onClick={() => sendDataToArduino('auto')}>
-          <Stack alignItems='center'>
-            <DirectionsCarIcon style={{ fontSize: '2.25rem' }} />
-            <Typography>Auto Mode</Typography>
-          </Stack>
-        </CustomButton>
-      </Grid>
-      <Grid container alignItems='center' justifyContent='center' mt={6} mb={6}>
-        <CustomButton size={2} onClick={() => sendDataToArduino('x')} inLine>
-          <Stack alignItems='center'>
-            <StopIcon />
-            <Typography>STOP!</Typography>
-          </Stack>
-        </CustomButton>
-
-        <CustomButton
-          size={2}
-          onClick={() => {
-            sendDataToArduino('o');
-            setToggleObjectCollision(!toggleObjectCollision);
-          }}
-          color={toggleObjectCollision ? '#BAFD9B' : '#FD9B9B'}
-          hoverColor={toggleObjectCollision ? '#60C133' : '#BB2B2B'}
-        >
-          <Stack alignItems='center'>
-            <PanToolIcon />
-            <Typography>Toggle Object Collision</Typography>
-          </Stack>
-        </CustomButton>
-      </Grid>
-      {showLog && (
-        <Stack alignItems='center' justifyContent='center'>
-          <Typography textAlign='center' variant='h4'>
-            Zumo Log
-            {zumoLog.map((log, index) => (
-              <Typography key={index} textAlign='center'>
-                {log}
-              </Typography>
-            ))}
+        <Stack alignItems='center' direction='row' justifyContent='center'>
+          <Typography textAlign='center'>
+            <Checkbox type='checkbox' onClick={handleLogClick} />
+            Show Log
           </Typography>
         </Stack>
-      )}
-    </Container>
+        <Grid
+          container
+          alignItems='center'
+          justifyContent='center'
+          textAlign='center'
+          mt={4}
+        >
+          <Grid item xs={4} />
+          <CustomButton size={3} onClick={() => sendDataToArduino('w')}>
+            <Stack alignItems='center'>
+              <ArrowUpwardIcon />
+              <Typography>Forward</Typography>
+            </Stack>
+          </CustomButton>
+
+          <Grid item xs={4} />
+          <CustomButton size={3} onClick={() => sendDataToArduino('a')}>
+            <Stack alignItems='center'>
+              <ArrowBackIcon />
+              <Typography>Left</Typography>
+            </Stack>
+          </CustomButton>
+
+          <Grid item xs={4} />
+
+          <CustomButton size={3} onClick={() => sendDataToArduino('d')}>
+            <Stack alignItems='center'>
+              <ArrowForwardIcon />
+              <Typography>Right</Typography>
+            </Stack>
+          </CustomButton>
+
+          <Grid item xs={4} />
+
+          <CustomButton size={3} onClick={() => sendDataToArduino('s')}>
+            <Stack alignItems='center'>
+              <ArrowDownwardIcon />
+              <Typography>Back</Typography>
+            </Stack>
+          </CustomButton>
+          <Grid item xs={4} />
+        </Grid>
+        <Grid container alignItems='center' justifyContent='center' mt={6}>
+          <CustomButton size={3} onClick={() => sendDataToArduino('l')} inLine>
+            <Stack alignItems='center'>
+              <RotateLeftIcon />
+              <Typography>90° Left</Typography>
+            </Stack>
+          </CustomButton>
+          <CustomButton size={3} onClick={() => sendDataToArduino('r')}>
+            <Stack alignItems='center'>
+              <RotateRightIcon />
+              <Typography>90° Right</Typography>
+            </Stack>
+          </CustomButton>
+        </Grid>
+        <Grid container alignItems='center' justifyContent='center' mt={6}>
+          <CustomButton
+            size={2}
+            onClick={() => sendDataToArduino('manual')}
+            inLine
+          >
+            <Stack alignItems='center'>
+              <PersonIcon style={{ fontSize: '2.25rem' }} />
+              <Typography>Manual Mode</Typography>
+            </Stack>
+          </CustomButton>
+
+          <CustomButton
+            size={2}
+            onClick={() => sendDataToArduino('semi')}
+            inLine
+          >
+            <Stack alignItems='center'>
+              <SmartToyIcon style={{ fontSize: '2.25rem' }} />
+              <Typography>Semi Auto Mode</Typography>
+            </Stack>
+          </CustomButton>
+
+          <CustomButton size={2} onClick={() => sendDataToArduino('auto')}>
+            <Stack alignItems='center'>
+              <DirectionsCarIcon style={{ fontSize: '2.25rem' }} />
+              <Typography>Auto Mode</Typography>
+            </Stack>
+          </CustomButton>
+        </Grid>
+        <Grid
+          container
+          alignItems='center'
+          justifyContent='center'
+          mt={6}
+          mb={6}
+        >
+          <CustomButton size={2} onClick={() => sendDataToArduino('x')} inLine>
+            <Stack alignItems='center'>
+              <StopIcon />
+              <Typography>STOP!</Typography>
+            </Stack>
+          </CustomButton>
+
+          <CustomButton
+            size={2}
+            onClick={() => {
+              sendDataToArduino('o');
+              setToggleObjectCollision(!toggleObjectCollision);
+            }}
+            color={toggleObjectCollision ? '#BAFD9B' : '#FD9B9B'}
+            hoverColor={toggleObjectCollision ? '#60C133' : '#BB2B2B'}
+          >
+            <Stack alignItems='center'>
+              <PanToolIcon />
+              <Typography>Toggle Object Collision</Typography>
+            </Stack>
+          </CustomButton>
+        </Grid>
+        {showLog && (
+          <Stack alignItems='center' justifyContent='center'>
+            <Typography textAlign='center' variant='h4'>
+              Zumo Log
+              {zumoLog.map((log, index) => (
+                <Typography key={index} textAlign='center'>
+                  {log}
+                </Typography>
+              ))}
+            </Typography>
+          </Stack>
+        )}
+      </Container>
+    </div>
   );
 };
